@@ -3,7 +3,7 @@ import { client } from "../utils";
 
 export const getVideo = createAsyncThunk("video/getVideo", async (videoId) => {
   const { data: video } = await client(
-    `${process.env.REACT_APP_BE}/videos/${videoId}`
+    `api/v1/videos/${videoId}`
   );
   return video;
 });

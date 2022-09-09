@@ -5,7 +5,6 @@ export const login = createAsyncThunk(
   "user/login",
   async ({ payload, clearForm }) => {
     const user = await authenticate("login", payload);
-
     if (user.token) {
       clearForm();
       return user;

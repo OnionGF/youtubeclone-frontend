@@ -70,7 +70,7 @@ const Comments = () => {
       }
 
       const { data } = await client(
-        `${process.env.REACT_APP_BE}/videos/${videoId}/comment`,
+        `api/v1/videos/${videoId}/comment`,
         {
           body: { text: comment.value },
         }

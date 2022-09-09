@@ -10,7 +10,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const { token } = useSelector((state) => state.user.data);
-
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyle />
@@ -19,7 +18,8 @@ const App = () => {
         position="top-right"
         closeButton={false}
       />
-      {token ? <Router /> : <Auth />}
+      {token ?  <Router /> : <Auth />}
+     
     </ThemeProvider>
   );
 };

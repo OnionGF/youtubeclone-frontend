@@ -61,7 +61,7 @@ const Home = () => {
       <VideoGrid>
         {!isFetching &&
           videos.map((video) => (
-            <Link key={video.id} to={`/watch/${video.id}`}>
+            <Link key={video._id} to={`/watch/${video._id}`}>
               <VideoCard video={video} />
             </Link>
           ))}

@@ -10,6 +10,7 @@ export const client = async (endpoint, { body, ...customConfig } = {}) => {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
+      referrer: "no-referrer"
     },
   };
 
@@ -100,15 +101,15 @@ export const upload = async (resourceType, file) => {
 };
 
 export const authenticate = async (type, data) => {
-  const backendUrl = process.env.REACT_APP_BE;
+  const backendUrl = '/api/v1';
 
   try {
-    const { data: token } = await client(`${backendUrl}/auth/${type}`, {
+    const { user: token } = await client(`${backendUrl}/auth/${type}`, {
       body: data,
     });
 
     if (token) {
-      const { data: user } = await client(`${backendUrl}/auth/me`, { token });
+      const { user } = await client(`${backendUrl}/auth/me`, { token });
 
       localStorage.setItem("user", JSON.stringify({ ...user, token }));
 

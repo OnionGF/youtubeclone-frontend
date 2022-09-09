@@ -5,7 +5,7 @@ export const getLikedVideos = createAsyncThunk(
   "likedVideo/getLikedVideos",
   async () => {
     const { data } = await client(
-      `${process.env.REACT_APP_BE}/users/likedVideos`
+      `api/v1/users/likedVideos`
     );
     return data;
   }

@@ -5,11 +5,11 @@ export const getSearchResults = createAsyncThunk(
   "searchResult",
   async (searchTerm) => {
     const { data: users } = await client(
-      `${process.env.REACT_APP_BE}/users/search?searchterm=${searchTerm}`
+      `api/v1/users/search?searchterm=${searchTerm}`
     );
 
     const { data: videos } = await client(
-      `${process.env.REACT_APP_BE}/videos/search?searchterm=${searchTerm}`
+      `api/v1/videos/search?searchterm=${searchTerm}`
     );
 
     return { users, videos };

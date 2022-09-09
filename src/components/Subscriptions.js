@@ -41,7 +41,7 @@ const Subscriptions = () => {
 
   return (
     <Wrapper>
-      {channels.length > 0 && <h4>Subscriptions</h4>}
+      {channels?.length > 0 && <h4>Subscriptions</h4>}
 
       {channels?.map((channel) => (
         <Link

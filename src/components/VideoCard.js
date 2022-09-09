@@ -41,15 +41,16 @@ const Wrapper = styled.div`
 `;
 
 const VideoCard = ({ nousername, hideavatar, video }) => {
+  console.log(44, video)
   return (
     <Wrapper>
-      <img className="thumb" src={video.thumbnail} alt="thumbnail" />
+      <img className="thumb" src={video.cover} alt="cover" />
       <div className="video-info-container">
         <div className="channel-avatar">
           {!hideavatar && (
             <Avatar
               style={{ marginRight: "0.8rem" }}
-              src={video.User.avatar}
+              src={video.user.avatar}
               alt="channel avatar"
             />
           )}
@@ -61,7 +62,7 @@ const VideoCard = ({ nousername, hideavatar, video }) => {
               : video.title}
           </h4>
           {!nousername && (
-            <span className="secondary">{video.User.username}</span>
+            <span className="secondary">{video.user.username}</span>
           )}
           <p className="secondary">
             <span>{video.views || 0} views</span> <span>•</span>{" "}
