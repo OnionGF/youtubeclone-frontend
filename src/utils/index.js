@@ -10,7 +10,6 @@ export const client = async (endpoint, { body, ...customConfig } = {}) => {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
-      referrer: "no-referrer"
     },
   };
 
@@ -18,6 +17,7 @@ export const client = async (endpoint, { body, ...customConfig } = {}) => {
     config.body = JSON.stringify(body);
   }
 
+  console.log(20, customConfig)
   if (customConfig.token) {
     config.headers.authorization = `Bearer ${customConfig.token}`;
   }
@@ -26,6 +26,7 @@ export const client = async (endpoint, { body, ...customConfig } = {}) => {
     config.headers.authorization = `Bearer ${user.token}`;
   }
 
+  console.log('request', endpoint, config)
   const res = await fetch(endpoint, config);
   const data = await res.json();
 
@@ -104,10 +105,11 @@ export const authenticate = async (type, data) => {
   const backendUrl = '/api/v1';
 
   try {
-    const { user: token } = await client(`${backendUrl}/auth/${type}`, {
+    const { user } = await client(`${backendUrl}/auth/${type}`, {
       body: data,
     });
 
+    const { token } = user
     if (token) {
       const { user } = await client(`${backendUrl}/auth/me`, { token });
 

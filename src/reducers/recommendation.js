@@ -5,6 +5,7 @@ export const getRecommendation = createAsyncThunk(
   "recommendation/getRecommendation",
   async () => {
     const { data } = await client(`api/v1/videos`);
+    console.log(8, data)
     return data;
   }
 );

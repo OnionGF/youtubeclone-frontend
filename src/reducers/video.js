@@ -2,17 +2,17 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { client } from "../utils";
 
 export const getVideo = createAsyncThunk("video/getVideo", async (videoId) => {
-  const { data: video } = await client(
+  const { data } = await client(
     `api/v1/videos/${videoId}`
   );
-  return video;
+  return data;
 });
 
 const videoSlice = createSlice({
   name: "slice",
   initialState: {
     isFetching: true,
-    data: {},
+    data: {}
   },
   reducers: {
     clearVideo(state, action) {
@@ -20,9 +20,10 @@ const videoSlice = createSlice({
       state.data = {};
     },
     addComment(state, action) {
+      console.log(23, state.data, action)
       state.data = {
         ...state.data,
-        comments: [action.payload, ...state.data.comments],
+        comments: [action.payload, ...state.data.comment.content],
       };
     },
     like(state, action) {
@@ -33,6 +34,7 @@ const videoSlice = createSlice({
       };
     },
     dislike(state, action) {
+      console.log("dislike", state)
       state.data = {
         ...state.data,
         isDisliked: !state.data.isDisliked,
@@ -40,6 +42,7 @@ const videoSlice = createSlice({
       };
     },
     cancelLike(state, action) {
+      console.log("cancelLike", state)
       state.data = {
         ...state.data,
         isLiked: !state.data.isLiked,
@@ -47,6 +50,7 @@ const videoSlice = createSlice({
       };
     },
     cancelDislike(state, action) {
+      console.log("cancelDislike", state)
       state.data = {
         ...state.data,
         isDisliked: !state.data.isDisliked,

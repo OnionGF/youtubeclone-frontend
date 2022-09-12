@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   const { token } = useSelector((state) => state.user.data);
+  console.log(13, token)
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyle />

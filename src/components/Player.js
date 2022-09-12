@@ -8,10 +8,10 @@ const Player = ({ previewUrl }) => {
   const videoRef = useRef(null);
 
   const dispatch = useDispatch();
-  const { id: videoId, url: src, thumb: poster } = useSelector(
+  const { player } = useSelector(
     (state) => state.video.data
   );
-
+  const { VideoId: videoId, PlayURL: src, CoverURL: poster } = player;
   useEffect(() => {
     const vjsPlayer = videojs(videoRef.current);
 
@@ -21,7 +21,7 @@ const Player = ({ previewUrl }) => {
     }
 
     if (previewUrl) {
-      vjsPlayer.src({ type: "video/mp4", src: previewUrl });
+      vjsPlayer.src({ type: "video/mp4", src});
     }
 
     vjsPlayer.on("ended", () => {

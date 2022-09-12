@@ -149,7 +149,8 @@ const WatchVideo = () => {
       dispatch(cancelDislike());
     }
 
-    client(`api/v1/videos/${videoId}/dislike`);
+    const res = client(`api/v1/videos/${videoId}/like`);
+    console.log(153, res)
   };
 
   const handleDislike = () => {
@@ -158,12 +159,11 @@ const WatchVideo = () => {
     } else {
       dispatch(dislike());
     }
-
     if (video.isLiked) {
       dispatch(cancelLike());
     }
-
-    client(`api/v1/videos/${videoId}/dislike`);
+    const res = client(`api/v1/videos/${videoId}/dislike`);
+    console.log(165, res)
   };
 
   const handleSubscribe = (channel) => {
@@ -237,13 +237,13 @@ const WatchVideo = () => {
             <div className="channel-info flex-row">
               <img
                 className="avatar md"
-                src={video.User?.avatar}
+                src={video.user?.avatar}
                 alt="channel avatar"
               />
               <div className="channel-info-meta">
                 <h4>
                   <Link to={`/channel/${video.userId}`}>
-                    {video.User?.username}
+                    {video.user?.username}
                   </Link>
                 </h4>
                 <span className="secondary small">
@@ -252,12 +252,12 @@ const WatchVideo = () => {
               </div>
             </div>
             {!video.isVideoMine && !video.isSubscribed && (
-              <Button onClick={() => handleSubscribe({ ...video.User })}>
+              <Button onClick={() => handleSubscribe({ ...video.user })}>
                 Subscribe
               </Button>
             )}
             {!video.isVideoMine && video.isSubscribed && (
-              <Button grey onClick={() => handleUnsubscribe(video.User.id)}>
+              <Button grey onClick={() => handleUnsubscribe(video.user._id)}>
                 Subscribed
               </Button>
             )}
@@ -271,10 +271,10 @@ const WatchVideo = () => {
       <div className="related-videos">
         <h3 style={{ marginBottom: "1rem" }}>Up Next</h3>
         {next
-          .filter((vid) => vid.id !== video.id)
+          .filter((vid) => vid._id !== video._id)
           .slice(0, 3)
           .map((video) => (
-            <Link key={video.id} to={`/watch/${video.id}`}>
+            <Link key={video._id} to={`/watch/${video._id}`}>
               <VideoCard key={video.id} hideavatar={true} video={video} />
             </Link>
           ))}

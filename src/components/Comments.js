@@ -1,11 +1,11 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import useInput from "../hooks/useInput";
-import { addComment } from "../reducers/video";
 import { client, timeSince } from "../utils";
+import { useEffect } from "react";
 
 const Wrapper = styled.div`
   margin: 1rem 0;
@@ -56,11 +56,21 @@ const Wrapper = styled.div`
 
 const Comments = () => {
   const comment = useInput("");
+  const [comments, setComments] = useState([]);
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    getComments();
+  }, [])
   const { data: user } = useSelector((state) => state.user);
-  const { id: videoId, comments } = useSelector((state) => state.video.data);
+  const res = useSelector((state) => state.video.data);
+  const  { _id: videoId }  = res;
 
+  const getComments = async () => {
+    const { data } = await client(
+      `api/v1/${videoId}/comments`
+    )
+    setComments(data)
+  }
   const handleAddComment = async (e) => {
     if (e.keyCode === 13) {
       e.target.blur();
@@ -68,16 +78,14 @@ const Comments = () => {
       if (!comment.value.trim()) {
         return toast.error("Please write a comment");
       }
-
-      const { data } = await client(
+      await client(
         `api/v1/videos/${videoId}/comment`,
         {
           body: { text: comment.value },
         }
       );
-
-      dispatch(addComment(data));
       comment.setValue("");
+      getComments();
     }
   };
 
@@ -97,22 +105,22 @@ const Comments = () => {
 
       {comments &&
         comments.map((comment) => (
-          <div key={comment.id} className="comment">
+          <div key={comment._id} className="comment">
             <Link to={`/channel/${comment.User?.id}`}>
-              <img src={comment.User?.avatar} alt="avatar" />
+              <img src={comment.user?.avatar} alt="avatar" />
             </Link>
             <div className="comment-info">
               <p className="secondary">
                 <span>
                   <Link to={`/channel/${comment.User?.id}`}>
-                    {comment.User?.username}
+                    {comment.user?.username}
                   </Link>
                 </span>
                 <span style={{ marginLeft: "0.6rem" }}>
                   {timeSince(comment.createdAt)} ago
                 </span>
               </p>
-              <p>{comment.text}</p>
+              <p>{comment.content}</p>
             </div>
           </div>
         ))}
