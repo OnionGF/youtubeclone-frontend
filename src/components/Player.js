@@ -11,6 +11,7 @@ const Player = ({ previewUrl }) => {
   const { player } = useSelector(
     (state) => state.video.data
   );
+  console.log(122121212, player)
   const { VideoId: videoId, PlayURL: src, CoverURL: poster } = player;
   useEffect(() => {
     const vjsPlayer = videojs(videoRef.current);

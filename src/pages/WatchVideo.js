@@ -134,11 +134,16 @@ const WatchVideo = () => {
   const { isFetching: videoFetching, data: video } = useSelector(
     (state) => state.video
   );
+
   const { isFetching: recommendationFetching, videos: next } = useSelector(
     (state) => state.recommendation
   );
 
-  const handleLike = () => {
+  const { data: admin } = useSelector(
+    (state) => state.user
+  );
+
+  const handleLike = async() => {
     if (video.isLiked) {
       dispatch(cancelLike());
     } else {
@@ -148,12 +153,11 @@ const WatchVideo = () => {
     if (video.isDisliked) {
       dispatch(cancelDislike());
     }
-
-    const res = client(`api/v1/videos/${videoId}/like`);
+    const res = await client(`api/v1/videos/${videoId}/like`)
     console.log(153, res)
   };
 
-  const handleDislike = () => {
+  const handleDislike = async() => {
     if (video.isDisliked) {
       dispatch(cancelDislike());
     } else {
@@ -162,7 +166,7 @@ const WatchVideo = () => {
     if (video.isLiked) {
       dispatch(cancelLike());
     }
-    const res = client(`api/v1/videos/${videoId}/dislike`);
+    const res = await client(`api/v1/videos/${videoId}/dislike`);
     console.log(165, res)
   };
 
@@ -171,6 +175,7 @@ const WatchVideo = () => {
     dispatch(addChannel(channel));
     addChannelLocalSt(channel);
     client(`api/v1/users/${channel.id}/togglesubscribe`);
+    dispatch(getVideo(videoId));
   };
 
   const handleUnsubscribe = (channelId) => {
@@ -178,18 +183,18 @@ const WatchVideo = () => {
     dispatch(removeChannel(channelId));
     removeChannelLocalSt(channelId);
     client(`api/v1/users/${channelId}/togglesubscribe`);
+    dispatch(getVideo(videoId));
   };
 
   useEffect(() => {
     dispatch(getVideo(videoId));
     dispatch(getRecommendation());
-
     return () => {
       dispatch(clearVideo());
     };
   }, [dispatch, videoId]);
 
-  if (videoFetching || recommendationFetching) {
+  if (videoFetching) {
     return <Skeleton />;
   }
 
@@ -251,12 +256,12 @@ const WatchVideo = () => {
                 </span>
               </div>
             </div>
-            {!video.isVideoMine && !video.isSubscribed && (
+            {admin.username !== video.user.username && !video.user.isSubscribed && (
               <Button onClick={() => handleSubscribe({ ...video.user })}>
                 Subscribe
               </Button>
             )}
-            {!video.isVideoMine && video.isSubscribed && (
+            {admin.username !== video.user.username && video.user.isSubscribed && (
               <Button grey onClick={() => handleUnsubscribe(video.user._id)}>
                 Subscribed
               </Button>

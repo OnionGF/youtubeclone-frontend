@@ -27,6 +27,7 @@ const videoSlice = createSlice({
       };
     },
     like(state, action) {
+      console.log(30, state)
       state.data = {
         ...state.data,
         isLiked: !state.data.isLiked,
