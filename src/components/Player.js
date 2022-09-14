@@ -8,19 +8,16 @@ const Player = ({ previewUrl }) => {
   const videoRef = useRef(null);
 
   const dispatch = useDispatch();
-  const { player } = useSelector(
+  const res = useSelector(
     (state) => state.video.data
   );
-  console.log(122121212, player)
-  const { VideoId: videoId, PlayURL: src, CoverURL: poster } = player;
+  const { VideoId: videoId, PlayURL: src, CoverURL: poster } = res.player;
   useEffect(() => {
     const vjsPlayer = videojs(videoRef.current);
-
     if (!previewUrl) {
       vjsPlayer.poster(poster);
       vjsPlayer.src(src);
     }
-
     if (previewUrl) {
       vjsPlayer.src({ type: "video/mp4", src});
     }
@@ -28,12 +25,6 @@ const Player = ({ previewUrl }) => {
     vjsPlayer.on("ended", () => {
       client(`api/v1/videos/${videoId}/view`);
     });
-
-    return () => {
-      if (vjsPlayer) {
-        vjsPlayer.dispose();
-      }
-    };
   }, [videoId, dispatch, src, previewUrl, poster]);
 
   return (

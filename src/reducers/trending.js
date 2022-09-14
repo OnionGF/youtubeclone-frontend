@@ -5,7 +5,6 @@ export const getTrending = createAsyncThunk(
   "trending/getTrending",
   async () => {
     const { data } = await client(`api/v1/videos`);
-    data.sort((a, b) => b.views - a.views);
     return data;
   }
 );

@@ -74,11 +74,11 @@ const Wrapper = styled.div`
 const TrendingCard = ({ video }) => {
   return (
     <Wrapper>
-      <img className="thumb" src={video.thumbnail} alt="thumbnail" />
+      <img className="thumb" src={video.cover} alt="thumbnail" />
       <div className="video-info-container">
         <h3>{video.title}</h3>
         <p className="secondary">
-          <span>{video.User.username}</span>
+          <span>{video.user.username}</span>
           <span>•</span>
           <span>{video.views || 0} views</span>
           <span>•</span> <span>{timeSince(video.createdAt)} ago</span>

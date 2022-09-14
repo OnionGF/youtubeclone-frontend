@@ -100,7 +100,38 @@ export const upload = async (resourceType, file) => {
 
   return data.secure_url;
 };
+export const uploadVideo = async (file) => {
+  console.log(104, file);
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("Title", "youtubeclone");
+  formData.append("FileName", "FileName1");
 
+
+  let toastId = null;
+  const config = {
+    onUploadProgress: (p) => {
+      const progress = p.loaded / p.total;
+      if (toastId === null) {
+        toastId = toast("Upload in Progress", {
+          progress,
+        });
+      } else {
+        toast.update(toastId, {
+          progress,
+        });
+      }
+    },
+  };
+
+  const res = await axios.get(
+    `vod/CreateUploadVideo?Title=123&FileName=2131231`,
+  );
+
+    console.log(130, res)
+  // return data.secure_url;
+  return res;
+};
 export const authenticate = async (type, data) => {
   const backendUrl = '/api/v1';
 
@@ -135,7 +166,7 @@ export const removeChannelLocalSt = (channelId) => {
 
 export const addChannelLocalSt = (channel) => {
   const user = JSON.parse(localStorage.getItem("user"));
-
+  console.log(169, user, channel)
   const updated = {
     ...user,
     channels: [channel, ...user.channels],

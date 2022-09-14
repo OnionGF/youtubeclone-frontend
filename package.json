@@ -25,7 +25,13 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "no-undef": "off",
+      "no-restricted-globals": "off",
+      "no-unused-vars": "off",
+      "no-unused-expressions": "off"
+    }
   },
   "browserslist": {
     "production": [

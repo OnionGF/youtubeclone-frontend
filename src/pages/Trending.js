@@ -42,7 +42,7 @@ const Trending = () => {
       <div className="trending">
         {!isFetching &&
           videos.map((video) => (
-            <Link to={`/watch/${video.id}`} key={video.id}>
+            <Link to={`/watch/${video._id}`} key={video._id}>
               <TrendingCard video={video} />
             </Link>
           ))}

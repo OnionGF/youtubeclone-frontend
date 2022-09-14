@@ -31,7 +31,7 @@ const Subscriptions = () => {
       <VideoGrid>
         {!isFetching &&
           videos.map((video) => (
-            <Link key={video.id} to={`/watch/${video.id}`}>
+            <Link key={video._id} to={`/watch/${video._id}`}>
               <VideoCard hideavatar={true} video={video} />
             </Link>
           ))}

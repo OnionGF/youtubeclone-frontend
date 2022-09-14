@@ -30,20 +30,6 @@ const userSlice = createSlice({
     data: JSON.parse(localStorage.getItem("user")) || {},
   },
   reducers: {
-    addChannel(state, action) {
-      state.data = {
-        ...state.data,
-        channels: [action.payload, ...state.data.channels],
-      };
-    },
-    removeChannel(state, action) {
-      state.data = {
-        ...state.data,
-        channels: state.data.channels.filter(
-          (channel) => channel.id !== action.payload
-        ),
-      };
-    },
     updateUser(state, action) {
       state.data = {
         ...state.data,

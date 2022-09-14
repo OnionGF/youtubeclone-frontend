@@ -14,8 +14,6 @@ import Button from "../styles/Button";
 
 // reducers and others
 import {
-  subscribeFromVideo,
-  unsubscribeFromVideo,
   clearVideo,
   getVideo,
   like,
@@ -23,11 +21,8 @@ import {
   cancelLike,
   cancelDislike,
 } from "../reducers/video";
-import { addChannel, removeChannel } from "../reducers/user";
 import { getRecommendation } from "../reducers/recommendation";
 import {
-  addChannelLocalSt,
-  removeChannelLocalSt,
   client,
   timeSince,
 } from "../utils";
@@ -135,6 +130,7 @@ const WatchVideo = () => {
     (state) => state.video
   );
 
+  console.log("数据更新", video, videoFetching)
   const { isFetching: recommendationFetching, videos: next } = useSelector(
     (state) => state.recommendation
   );
@@ -142,6 +138,14 @@ const WatchVideo = () => {
   const { data: admin } = useSelector(
     (state) => state.user
   );
+
+  useEffect(() => {
+    dispatch(getVideo(videoId));
+    dispatch(getRecommendation());
+    return () => {
+      dispatch(clearVideo());
+    };
+  }, [dispatch, videoId]);
 
   const handleLike = async() => {
     if (video.isLiked) {
@@ -154,7 +158,6 @@ const WatchVideo = () => {
       dispatch(cancelDislike());
     }
     const res = await client(`api/v1/videos/${videoId}/like`)
-    console.log(153, res)
   };
 
   const handleDislike = async() => {
@@ -167,32 +170,22 @@ const WatchVideo = () => {
       dispatch(cancelLike());
     }
     const res = await client(`api/v1/videos/${videoId}/dislike`);
-    console.log(165, res)
   };
 
-  const handleSubscribe = (channel) => {
-    dispatch(subscribeFromVideo());
-    dispatch(addChannel(channel));
-    addChannelLocalSt(channel);
-    client(`api/v1/users/${channel.id}/togglesubscribe`);
-    dispatch(getVideo(videoId));
+  const handleSubscribe = async (channel) => {
+    const res = await client(`api/v1/users/${channel._id}/subscribe`);
+    if (res) {
+      dispatch(getVideo(videoId));
+    }
   };
 
-  const handleUnsubscribe = (channelId) => {
-    dispatch(unsubscribeFromVideo());
-    dispatch(removeChannel(channelId));
-    removeChannelLocalSt(channelId);
-    client(`api/v1/users/${channelId}/togglesubscribe`);
-    dispatch(getVideo(videoId));
+  const handleUnsubscribe = async (channelId) => {
+    const res = client(`api/v1/users/${channelId}/unsubscribe`);
+    if (res) {
+      dispatch(getVideo(videoId));
+    }
   };
-
-  useEffect(() => {
-    dispatch(getVideo(videoId));
-    dispatch(getRecommendation());
-    return () => {
-      dispatch(clearVideo());
-    };
-  }, [dispatch, videoId]);
+  
 
   if (videoFetching) {
     return <Skeleton />;
@@ -213,8 +206,9 @@ const WatchVideo = () => {
       filledDislike={video && video.isDisliked}
     >
       <div className="video-container">
-        <div className="video">{!videoFetching && <Player />}</div>
-
+        <div className="video">
+          {!videoFetching && <Player />}
+        </div>
         <div className="video-info">
           <h3>{video.title}</h3>
 

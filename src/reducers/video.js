@@ -20,7 +20,6 @@ const videoSlice = createSlice({
       state.data = {};
     },
     addComment(state, action) {
-      console.log(23, state.data, action)
       state.data = {
         ...state.data,
         comments: [action.payload, ...state.data.comment.content],
@@ -58,18 +57,6 @@ const videoSlice = createSlice({
         dislikesCount: state.data.dislikesCount - 1,
       };
     },
-    subscribeFromVideo(state, action) {
-      state.data = {
-        ...state.data,
-        isSubscribed: !state.data.isSubscribed,
-      };
-    },
-    unsubscribeFromVideo(state, action) {
-      state.data = {
-        ...state.data,
-        isSubscribed: !state.data.isSubscribed,
-      };
-    },
   },
   extraReducers: {
     [getVideo.fulfilled]: (state, action) => {
@@ -86,8 +73,6 @@ export const {
   dislike,
   cancelLike,
   cancelDislike,
-  subscribeFromVideo,
-  unsubscribeFromVideo,
 } = videoSlice.actions;
 
 export default videoSlice.reducer;
