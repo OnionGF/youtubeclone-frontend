@@ -65,8 +65,6 @@ export const StyledAuth = styled.div`
 const Signup = ({ setAuth }) => {
   const dispatch = useDispatch();
 
-  const firstname = useInput("");
-  const lastname = useInput("");
   const username = useInput("");
   const email = useInput("");
   const password1 = useInput("");
@@ -76,8 +74,6 @@ const Signup = ({ setAuth }) => {
     e.preventDefault();
 
     if (
-      !firstname.value.trim() ||
-      !lastname.value.trim() ||
       !username.value.trim() ||
       !email.value.trim() ||
       !password1.value.trim() ||
@@ -94,23 +90,19 @@ const Signup = ({ setAuth }) => {
       return toast.error("Username should be atleast four characters long");
     }
 
-    const re = /^[a-z0-9\x20]+$/i;
-    if (!re.exec(username.value)) {
-      return toast.error("Choose a better username");
-    }
+    // const re = /^[a-z0-9\x20]+$/i;
+    // if (!re.exec(username.value)) {
+    //   return toast.error("Choose a better username");
+    // }
 
     const payload = {
       username: username.value,
-      firstname: firstname.value,
-      lastname: lastname.value,
       email: email.value,
       password: password1.value,
     };
 
     const clearForm = () => {
       username.setValue("");
-      firstname.setValue("");
-      lastname.setValue("");
       email.setValue("");
       password1.setValue("");
       password2.setValue("");
@@ -123,20 +115,6 @@ const Signup = ({ setAuth }) => {
     <StyledAuth>
       <h2>Create your account</h2>
       <form onSubmit={handleSubmit}>
-        <div className="input-group">
-          <input
-            type="text"
-            placeholder="firstname"
-            value={firstname.value}
-            onChange={firstname.onChange}
-          />
-          <input
-            type="text"
-            placeholder="lastname"
-            value={lastname.value}
-            onChange={lastname.onChange}
-          />
-        </div>
         <input
           type="text"
           placeholder="username"
