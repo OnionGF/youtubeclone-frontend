@@ -142,10 +142,7 @@ export const authenticate = async (type, data) => {
 
     const { token } = user
     if (token) {
-      const { user } = await client(`${backendUrl}/auth/me`, { token });
-
       localStorage.setItem("user", JSON.stringify({ ...user, token }));
-
       return { ...user, token };
     }
   } catch (err) {

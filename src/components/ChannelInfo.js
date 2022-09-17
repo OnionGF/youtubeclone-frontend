@@ -3,11 +3,9 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Button from "../styles/Button";
+import { getChannels } from "../reducers/channelRecommendation";
 
 // reducers and utils
-import { addChannel, removeChannel } from "../reducers/user";
-import { toggleSubscribeSearchResults } from "../reducers/searchResult";
-import { toggleSubscribeChannelRecommendation } from "../reducers/channelRecommendation";
 import { client, addChannelLocalSt, removeChannelLocalSt } from "../utils";
 
 const Wrapper = styled.div`
@@ -80,30 +78,19 @@ const Wrapper = styled.div`
 const ChannelInfo = ({ search, channel }) => {
   const dispatch = useDispatch();
 
-  const handleSubscribe = (channel) => {
-    if (search) {
-      dispatch(toggleSubscribeSearchResults(channel.id));
+  const handleSubscribe = async (channel) => {
+    const res = await client(`api/v1/users/${channel._id}/subscribe`);
+    if (res) {
+      dispatch(getChannels());
     }
-
-    dispatch(toggleSubscribeChannelRecommendation(channel.id));
-
-    dispatch(addChannel(channel));
-    addChannelLocalSt(channel);
-    client(`api/v1/users/${channel.id}/togglesubscribe`);
   };
 
-  const handleUnsubscribe = (channelId) => {
-    if (search) {
-      dispatch(toggleSubscribeSearchResults(channelId));
+  const handleUnsubscribe = async (channelId) => {
+    const res = client(`api/v1/users/${channelId}/unsubscribe`);
+    if (res) {
+      dispatch(getChannels());
     }
-
-    dispatch(toggleSubscribeChannelRecommendation(channel.id));
-
-    dispatch(removeChannel(channelId));
-    removeChannelLocalSt(channelId);
-    client(`api/v1/users/${channel.id}/togglesubscribe`);
   };
-
   return (
     <Wrapper>
       <Link to={`/channel/${channel.id}`} className="avatar-channel">
@@ -115,7 +102,7 @@ const ChannelInfo = ({ search, channel }) => {
           <p className="secondary">
             <span>{channel.subscribersCount} subscribers</span>{" "}
             <span className="to-hide">•</span>{" "}
-            <span className="to-hide">{channel.videosCount} videos</span>
+            <span className="to-hide">{channel.videosArr.length} videos</span>
           </p>
 
           {channel.channelDescription && (
@@ -131,11 +118,7 @@ const ChannelInfo = ({ search, channel }) => {
       {!channel.isMe && !channel.isSubscribed && (
         <Button
           onClick={() =>
-            handleSubscribe({
-              id: channel.id,
-              username: channel.username,
-              avatar: channel.avatar,
-            })
+            handleSubscribe(channel)
           }
         >
           Subscribe

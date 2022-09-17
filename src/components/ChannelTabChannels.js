@@ -36,14 +36,15 @@ const Wrapper = styled.div`
 const ChannelTabChannels = () => {
   const { channels } = useSelector((state) => state.profile.data);
 
-  if (!channels.length) {
+  console.log(22, channels)
+  if (!channels?.length) {
     return <p>Not subscribed to any channels yet</p>;
   }
 
   return (
     <Wrapper>
       {channels.map((channel) => (
-        <Link to={`/channel/${channel.id}`} key={channel.id}>
+        <Link to={`/channel/${channel._id}`} key={channel._id}>
           <div className="channel">
             <img src={channel.avatar} alt="avatar" />
             <h3>{channel.username}</h3>
