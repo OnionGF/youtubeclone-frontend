@@ -5,11 +5,11 @@ export const getSearchResults = createAsyncThunk(
   "searchResult",
   async (searchTerm) => {
     const { data: users } = await client(
-      `api/v1/users/search?searchterm=${searchTerm}`
+      `/api/v1/users/search?searchterm=${searchTerm}`
     );
 
     const { data: videos } = await client(
-      `api/v1/videos/search?searchterm=${searchTerm}`
+      `/api/v1/videos/search?searchterm=${searchTerm}`
     );
 
     return { users, videos };

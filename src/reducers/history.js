@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { client } from "../utils";
 
 export const getHistory = createAsyncThunk("history/getHistory", async () => {
-  const { data } = await client(`api/v1/videos`);
+  const { data } = await client(`/api/v1/videos`);
   return data;
 });
 

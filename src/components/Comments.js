@@ -67,7 +67,7 @@ const Comments = () => {
 
   const getComments = async () => {
     const { data } = await client(
-      `api/v1/${videoId}/comments`
+      `/api/v1/${videoId}/comments`
     )
     setComments(data)
   }
@@ -79,7 +79,7 @@ const Comments = () => {
         return toast.error("Please write a comment");
       }
       await client(
-        `api/v1/videos/${videoId}/comment`,
+        `/api/v1/videos/${videoId}/comment`,
         {
           body: { text: comment.value },
         }

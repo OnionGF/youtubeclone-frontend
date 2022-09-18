@@ -157,7 +157,7 @@ const WatchVideo = () => {
     if (video.isDisliked) {
       dispatch(cancelDislike());
     }
-    const res = await client(`api/v1/videos/${videoId}/like`)
+    const res = await client(`/api/v1/videos/${videoId}/like`)
   };
 
   const handleDislike = async() => {
@@ -169,18 +169,18 @@ const WatchVideo = () => {
     if (video.isLiked) {
       dispatch(cancelLike());
     }
-    const res = await client(`api/v1/videos/${videoId}/dislike`);
+    const res = await client(`/api/v1/videos/${videoId}/dislike`);
   };
 
   const handleSubscribe = async (channel) => {
-    const res = await client(`api/v1/users/${channel._id}/subscribe`);
+    const res = await client(`/api/v1/users/${channel._id}/subscribe`);
     if (res) {
       dispatch(getVideo(videoId));
     }
   };
 
   const handleUnsubscribe = async (channelId) => {
-    const res = client(`api/v1/users/${channelId}/unsubscribe`);
+    const res = client(`/api/v1/users/${channelId}/unsubscribe`);
     if (res) {
       dispatch(getVideo(videoId));
     }

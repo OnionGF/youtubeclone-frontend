@@ -149,7 +149,7 @@ const UploadVideoModal = ({ previewVideo, closeModal, url, thumbnail }) => {
       };
 
       const { data: video } = await client(
-        `api/v1/videos`,
+        `/api/v1/videos`,
         { body: newVideo }
       );
 

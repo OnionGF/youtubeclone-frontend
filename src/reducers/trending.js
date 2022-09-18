@@ -4,7 +4,7 @@ import { client } from "../utils";
 export const getTrending = createAsyncThunk(
   "trending/getTrending",
   async () => {
-    const { data } = await client(`api/v1/videos`);
+    const { data } = await client(`/api/v1/videos`);
     return data;
   }
 );

@@ -4,7 +4,7 @@ import { client } from "../utils";
 export const getChannels = createAsyncThunk(
   "channelRecommendation/getChannels",
   async () => {
-    const { data } = await client(`api/v1/users`);
+    const { data } = await client(`/api/v1/users`);
     return data;
   }
 );

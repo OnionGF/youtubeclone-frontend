@@ -79,14 +79,14 @@ const ChannelInfo = ({ search, channel }) => {
   const dispatch = useDispatch();
 
   const handleSubscribe = async (channel) => {
-    const res = await client(`api/v1/users/${channel._id}/subscribe`);
+    const res = await client(`/api/v1/users/${channel._id}/subscribe`);
     if (res) {
       dispatch(getChannels());
     }
   };
 
   const handleUnsubscribe = async (channelId) => {
-    const res = client(`api/v1/users/${channelId}/unsubscribe`);
+    const res = client(`/api/v1/users/${channelId}/unsubscribe`);
     if (res) {
       dispatch(getChannels());
     }

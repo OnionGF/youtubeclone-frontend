@@ -23,7 +23,7 @@ const Player = ({ previewUrl }) => {
     }
 
     vjsPlayer.on("ended", () => {
-      client(`api/v1/videos/${videoId}/view`);
+      client(`/api/v1/videos/${videoId}/view`);
     });
   }, [videoId, dispatch, src, previewUrl, poster]);
 

@@ -5,7 +5,7 @@ export const getProfile = createAsyncThunk(
   "profile/getProfile",
   async (userId, thunk) => {
     const { data } = await client(
-      `/users/${userId}/videos`
+      `/api/v1/users/${userId}/videos`
     );
     return data;
   }

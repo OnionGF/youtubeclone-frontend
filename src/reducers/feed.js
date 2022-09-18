@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { client } from "../utils";
 
 export const getFeed = createAsyncThunk("feed/getFeed", async () => {
-  const { data } = await client(`user/videos/feed`);
+  const { data } = await client(`/api/v1/user/videos/feed`);
   return data;
 });
 
