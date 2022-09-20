@@ -17,7 +17,6 @@ export const client = async (endpoint, { body, ...customConfig } = {}) => {
     config.body = JSON.stringify(body);
   }
 
-  console.log(20, customConfig)
   if (customConfig.token) {
     config.headers.authorization = `Bearer ${customConfig.token}`;
   }
@@ -26,7 +25,6 @@ export const client = async (endpoint, { body, ...customConfig } = {}) => {
     config.headers.authorization = `Bearer ${user.token}`;
   }
 
-  console.log('request', endpoint, config)
   const res = await fetch(endpoint, config);
   const data = await res.json();
 
@@ -71,7 +69,7 @@ export const timeSince = (timestamp) => {
 
 export const upload = async (resourceType, file) => {
   const formData = new FormData();
-  formData.append("upload_preset", "youtubeclone");
+  formData.append("upload_preset", "rlsm4att");
   formData.append("file", file);
 
   let toastId = null;
@@ -91,7 +89,7 @@ export const upload = async (resourceType, file) => {
   };
 
   const { data } = await axios.post(
-    `${process.env.REACT_APP_CLOUDINARY_ENDPOINT}/${resourceType}/upload`,
+    `https://api.cloudinary.com/v1_1/dvrrtxqpc/${resourceType}/upload`,
     formData,
     config
   );
@@ -100,38 +98,7 @@ export const upload = async (resourceType, file) => {
 
   return data.secure_url;
 };
-export const uploadVideo = async (file) => {
-  console.log(104, file);
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("Title", "youtubeclone");
-  formData.append("FileName", "FileName1");
 
-
-  let toastId = null;
-  const config = {
-    onUploadProgress: (p) => {
-      const progress = p.loaded / p.total;
-      if (toastId === null) {
-        toastId = toast("Upload in Progress", {
-          progress,
-        });
-      } else {
-        toast.update(toastId, {
-          progress,
-        });
-      }
-    },
-  };
-
-  const res = await axios.get(
-    `vod/CreateUploadVideo?Title=123&FileName=2131231`,
-  );
-
-    console.log(130, res)
-  // return data.secure_url;
-  return res;
-};
 export const authenticate = async (type, data) => {
   const backendUrl = '/api/v1';
 
@@ -177,3 +144,27 @@ export const updateUserLocalSt = (data) => {
   const updatedUser = { ...user, ...data };
   localStorage.setItem("user", JSON.stringify(updatedUser));
 };
+
+
+export const Base64 = {
+  //加密
+  encode(str) {
+      if (str===undefined || str === "" || str === null) {
+          return str;
+      }
+      return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+          function toSolidBytes(match, p1) {
+              return String.fromCharCode('0x' + p1);
+          }));
+  },
+  //解密
+  decode(str) {
+      if (str===undefined || str === "" || str === null) {
+          return str;
+      }
+      // Going backwards: from bytestream, to percent-encoding, to original string.
+      return decodeURIComponent(atob(str).split('').map(function (c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+  }
+}

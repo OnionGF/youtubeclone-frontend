@@ -67,7 +67,7 @@ const Comments = () => {
 
   const getComments = async () => {
     const { data } = await client(
-      `/api/v1/${videoId}/comments`
+      `/api/v1/videos/${videoId}/comments`
     )
     setComments(data)
   }

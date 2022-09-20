@@ -4,10 +4,13 @@ import { client } from "../utils";
 export const getProfile = createAsyncThunk(
   "profile/getProfile",
   async (userId, thunk) => {
-    const { data } = await client(
+    const { data, author } = await client(
       `/api/v1/users/${userId}/videos`
     );
-    return data;
+    return {
+      videos: data,
+      author
+    };
   }
 );
 

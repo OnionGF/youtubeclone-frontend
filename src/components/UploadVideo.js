@@ -3,7 +3,7 @@ import path from "path";
 import { toast } from "react-toastify";
 import { UploadIcon } from "./Icons";
 import UploadVideoModal from "./UploadVideoModal";
-import { upload } from "../utils";
+import { client, upload, Base64 } from "../utils";
 
 const UploadVideo = () => {
   const [showModal, setShowModal] = useState(false);
@@ -24,17 +24,18 @@ const UploadVideo = () => {
       }
 
       const url = URL.createObjectURL(file);
+      console.log(27, url)
       setPreviewVideo(url);
       setShowModal(true);
 
       const data = await upload("video", file);
+      console.log(31, data)
       setUrl(data);
 
       const ext = path.extname(data);
       setThumbnail(data.replace(ext, ".jpg"));
     }
   };
-
   return (
     <div>
       <label htmlFor="video-upload">

@@ -26,7 +26,6 @@ const videoSlice = createSlice({
       };
     },
     like(state, action) {
-      console.log(30, state)
       state.data = {
         ...state.data,
         isLiked: !state.data.isLiked,
@@ -34,7 +33,6 @@ const videoSlice = createSlice({
       };
     },
     dislike(state, action) {
-      console.log("dislike", state)
       state.data = {
         ...state.data,
         isDisliked: !state.data.isDisliked,
@@ -42,7 +40,6 @@ const videoSlice = createSlice({
       };
     },
     cancelLike(state, action) {
-      console.log("cancelLike", state)
       state.data = {
         ...state.data,
         isLiked: !state.data.isLiked,
@@ -50,7 +47,6 @@ const videoSlice = createSlice({
       };
     },
     cancelDislike(state, action) {
-      console.log("cancelDislike", state)
       state.data = {
         ...state.data,
         isDisliked: !state.data.isDisliked,

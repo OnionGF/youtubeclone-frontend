@@ -35,7 +35,7 @@ const ChannelTabVideo = () => {
     <Wrapper>
       <div className="videos">
         {videos?.map((video) => (
-          <Link to={`/watch/${video.id}`} key={video.id}>
+          <Link to={`/watch/${video._id}`} key={video._id}>
             <VideoCard nousername={true} hideavatar={true} video={video} />
           </Link>
         ))}

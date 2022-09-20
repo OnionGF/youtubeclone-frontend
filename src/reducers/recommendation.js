@@ -5,7 +5,6 @@ export const getRecommendation = createAsyncThunk(
   "recommendation/getRecommendation",
   async () => {
     const { data } = await client(`/api/v1/videos`);
-    console.log(8, data)
     return data;
   }
 );
@@ -18,7 +17,7 @@ const recommendationSlice = createSlice({
   },
   reducers: {
     addToRecommendation(state, action) {
-      state.videos = [action.payload, ...state.videos];
+      state.videos = [ ...state.videos, action.payload,];
     },
   },
   extraReducers: {

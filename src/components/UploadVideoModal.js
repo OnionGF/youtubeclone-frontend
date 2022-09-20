@@ -6,7 +6,7 @@ import Player from "./Player";
 import Button from "../styles/Button";
 import { CloseIcon } from "./Icons";
 import useInput from "../hooks/useInput";
-import { addToRecommendation } from "../reducers/recommendation";
+import { getRecommendation } from "../reducers/recommendation";
 import { client } from "../utils";
 
 const openModal = keyframes`
@@ -155,17 +155,7 @@ const UploadVideoModal = ({ previewVideo, closeModal, url, thumbnail }) => {
 
       closeModal();
 
-      dispatch(
-        addToRecommendation({
-          ...video,
-          views: 0,
-          User: {
-            id: user.id,
-            avatar: user.avatar,
-            username: user.username,
-          },
-        })
-      );
+      dispatch(getRecommendation());
     }
   };
 

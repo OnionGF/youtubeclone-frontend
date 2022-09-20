@@ -44,29 +44,29 @@ const VideoCard = ({ nousername, hideavatar, video }) => {
   console.log(44, video)
   return (
     <Wrapper>
-      <img className="thumb" src={video.cover} alt="cover" />
+      <img className="thumb" src={video.thumbnail} alt="cover" />
       <div className="video-info-container">
         <div className="channel-avatar">
           {!hideavatar && (
             <Avatar
               style={{ marginRight: "0.8rem" }}
-              src={video.user.avatar}
+              src={video?.user?.avatar}
               alt="channel avatar"
             />
           )}
         </div>
         <div className="video-info">
           <h4>
-            {video.title.length > 40
+            {video?.title.length > 40
               ? video.title.substring(0, 40) + "..."
               : video.title}
           </h4>
           {!nousername && (
-            <span className="secondary">{video.user.username}</span>
+            <span className="secondary">{video?.user.username}</span>
           )}
           <p className="secondary">
             <span>{video.views || 0} views</span> <span>•</span>{" "}
-            <span>{timeSince(video.createdAt)} ago</span>
+            <span>{timeSince(video?.createdAt)} ago</span>
           </p>
         </div>
       </div>

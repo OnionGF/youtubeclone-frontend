@@ -110,10 +110,8 @@ const Channel = () => {
   const { userId } = useParams();
 
   const dispatch = useDispatch();
-  const res = useSelector((state) => state.user.data);
-  console.log(111, res)
   const { id: loggedInUserId } = useSelector((state) => state.user.data);
-  const { isFetching, data: profile } = useSelector((state) => state.profile);
+  const { isFetching, author: profile } = useSelector((state) => state.profile.data);
 
   const [tab, setTab] = useState("VIDEOS");
 
@@ -153,7 +151,7 @@ const Channel = () => {
   if (isFetching) {
     return <Skeleton />;
   }
-
+  console.log("profile", profile)
   return (
     <Wrapper editProfile={profile.isMe}>
       <div className="cover">

@@ -130,7 +130,6 @@ const WatchVideo = () => {
     (state) => state.video
   );
 
-  console.log("数据更新", video, videoFetching)
   const { isFetching: recommendationFetching, videos: next } = useSelector(
     (state) => state.recommendation
   );
@@ -138,6 +137,11 @@ const WatchVideo = () => {
   const { data: admin } = useSelector(
     (state) => state.user
   );
+
+  const stateData = useSelector(
+    (state) => state
+  );
+  console.log(144, stateData)
 
   useEffect(() => {
     dispatch(getVideo(videoId));
