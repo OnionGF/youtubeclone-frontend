@@ -100,10 +100,9 @@ const Wrapper = styled.div`
 
 const EditProfileModal = ({ closeModal }) => {
   const dispatch = useDispatch();
-  const { data: profile } = useSelector((state) => state.profile);
+  const { author: profile } = useSelector((state) => state.profile.data);
+  console.log("profile". profile)
 
-  const firstname = useInput(profile.firstname);
-  const lastname = useInput(profile.lastname);
   const channelDesc = useInput(profile.channelDescription || "");
 
   // uploaded avatar, cover
@@ -128,19 +127,8 @@ const EditProfileModal = ({ closeModal }) => {
   };
 
   const handleEditProfile = () => {
-    if (!firstname.value.trim()) {
-      return toast.error("firstname should not be empty");
-    }
 
-    if (!lastname.value.trim()) {
-      return toast.error("lastname should not be empty");
-    }
-
-    const data = {
-      firstname: firstname.value,
-      lastname: lastname.value,
-    };
-
+    let data = {}
     if (avatar) data.avatar = avatar;
     if (cover) data.cover = cover;
 
@@ -149,16 +137,15 @@ const EditProfileModal = ({ closeModal }) => {
     dispatch(updateProfile(updates));
 
     dispatch(updateUser(updates));
-    client(`/api/v1/users`, {
+    client(`/api/v1/user`, {
       body: updates,
-      method: "PUT",
     });
 
     updateUserLocalSt(updates);
     toast.dark("Profile updated");
     closeModal();
   };
-
+  console.log(111, profile.cover, profile.avatar)
   return (
     <Wrapper>
       <div className="container"></div>
@@ -192,6 +179,7 @@ const EditProfileModal = ({ closeModal }) => {
 
         <div className="avatar-upload-icon">
           <label htmlFor="avatar-upload">
+            {avatar}
             <img
               src={avatar ? avatar : profile.avatar}
               className="pointer avatar lg"
@@ -208,18 +196,6 @@ const EditProfileModal = ({ closeModal }) => {
         </div>
 
         <form>
-          <input
-            type="text"
-            placeholder="firstname"
-            value={firstname.value}
-            onChange={firstname.onChange}
-          />
-          <input
-            type="text"
-            placeholder="lastname"
-            value={lastname.value}
-            onChange={lastname.onChange}
-          />
           <textarea
             type="text"
             placeholder="Tell viewers about your channel"

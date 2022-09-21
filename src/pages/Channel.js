@@ -131,6 +131,7 @@ const Channel = () => {
     client(`/api/v1/users/${channelId}/togglesubscribe`);
   };
 
+  const isMe = profileId === profile?._id
   useEffect(() => {
     dispatch(getProfile(profileId));
 
@@ -153,7 +154,7 @@ const Channel = () => {
   }
   console.log("profile", profile)
   return (
-    <Wrapper editProfile={profile.isMe}>
+    <Wrapper editProfile={isMe}>
       <div className="cover">
         <img src={profile.cover} alt="channel-cover" />
       </div>
@@ -174,15 +175,15 @@ const Channel = () => {
             </div>
           </div>
 
-          {profile.isMe && <EditProfile />}
+          {isMe && <EditProfile />}
 
-          {!profile.isMe && profile.isSubscribed && (
+          {!isMe && profile.isSubscribed && (
             <Button grey onClick={() => handleUnsubscribe(profile.id)}>
               Subscribed
             </Button>
           )}
 
-          {!profile.isMe && !profile.isSubscribed && (
+          {!isMe && !profile.isSubscribed && (
             <Button
               onClick={() =>
                 handleSubscribe({

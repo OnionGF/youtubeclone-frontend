@@ -137,12 +137,7 @@ const WatchVideo = () => {
   const { data: admin } = useSelector(
     (state) => state.user
   );
-
-  const stateData = useSelector(
-    (state) => state
-  );
-  console.log(144, stateData)
-
+ 
   useEffect(() => {
     dispatch(getVideo(videoId));
     dispatch(getRecommendation());
